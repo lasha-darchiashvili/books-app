@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotify.R
 import com.example.spotify.navigation.Login
+import com.example.spotify.navigation.Register
 
 @Composable
 fun MainScreen(navController: NavController) {
@@ -73,7 +74,7 @@ fun MainScreen(navController: NavController) {
             elevation = null) {
             Text(text = "Get Started", color = Color(0xffffffff))
         }
-        Button(onClick = {}, modifier = Modifier.fillMaxWidth(0.83f),
+        Button(onClick = { navController.navigate(Register)}, modifier = Modifier.fillMaxWidth(0.83f),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
             ),

@@ -59,69 +59,83 @@ fun LoginScreen(navController: NavController) {
         Header(navController = navController, title ="Get Started")
         Text(text = "Please fill your details to login.", fontSize = 16.sp,
             modifier = Modifier.fillMaxWidth(0.88f).padding(top = 72.dp))
-        BasicTextField(
-            value = "userName",
-            onValueChange = {
-//                userName = it
-            },
 
-            modifier = Modifier
-                .padding(top = 32.dp)
-                .fillMaxWidth(0.88f)
-                .height(56.dp)
-                .clip(RoundedCornerShape(5.dp))
-                .background(Color(0xffDEDEDE))
-                .padding(horizontal = 16.dp, vertical = 18.dp),
-            textStyle = TextStyle(
-                color = Color.Black,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal
-            ),
-            singleLine = true,
-
+        Box {
+            Text(
+                text = "Username",
             )
 
-        BasicSecureTextField(
-            state = password,
-            textObfuscationMode =
-                if (showPassword) {
-                    TextObfuscationMode.Visible
-                } else {
-                    TextObfuscationMode.RevealLastTyped
+            BasicTextField(
+                value = userName,
+                onValueChange = {
+                userName = it
                 },
-            modifier = Modifier
-                .padding(top = 24.dp)
-                .fillMaxWidth(0.88f)
-                .height(56.dp)
-                .clip(RoundedCornerShape(5.dp))
-                .background(Color(0xffDEDEDE))
-                .padding(6.dp),
 
-        decorator = { innerTextField ->
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 16.dp, end = 48.dp)
-                    ) {
-                        innerTextField()
+                modifier = Modifier
+                    .padding(top = 32.dp)
+                    .fillMaxWidth(0.88f)
+                    .height(56.dp)
+                    .clip(RoundedCornerShape(5.dp))
+                    .background(Color(0xffDEDEDE))
+                    .padding(horizontal = 16.dp, vertical = 18.dp),
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                singleLine = true,
+
+                )
+        }
+
+        Box {
+            Text(
+                text = "Password",
+            )
+
+
+            BasicSecureTextField(
+                state = password,
+                textObfuscationMode =
+                    if (showPassword) {
+                        TextObfuscationMode.Visible
+                    } else {
+                        TextObfuscationMode.RevealLastTyped
+                    },
+                modifier = Modifier
+                    .padding(top = 32.dp)
+                    .fillMaxWidth(0.88f)
+                    .height(56.dp)
+                    .clip(RoundedCornerShape(5.dp))
+                    .background(Color(0xffDEDEDE))
+                    .padding(6.dp),
+
+                decorator = { innerTextField ->
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = 16.dp, end = 48.dp)
+                        ) {
+                            innerTextField()
+                        }
+                        Icon(
+                            if (showPassword) {
+                                Icons.Filled.Visibility
+                            } else {
+                                Icons.Filled.VisibilityOff
+                            },
+                            contentDescription = "Toggle password visibility",
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .requiredSize(54.dp).padding(16.dp)
+                                .clickable { showPassword = !showPassword }
+                        )
                     }
-                    Icon(
-                        if (showPassword) {
-                            Icons.Filled.Visibility
-                        } else {
-                            Icons.Filled.VisibilityOff
-                        },
-                        contentDescription = "Toggle password visibility",
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .requiredSize(54.dp).padding(16.dp)
-                            .clickable { showPassword = !showPassword }
-                    )
                 }
-            }
-        )
+            )
 
+        }
         Button(onClick = {}, modifier = Modifier.fillMaxWidth(0.88f).padding(top = 32.dp).clip(RoundedCornerShape(5.dp))
             .background(Color(0xff000000)
             ),

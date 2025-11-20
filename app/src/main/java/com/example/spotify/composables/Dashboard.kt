@@ -66,31 +66,31 @@ fun Dashboard() {
 
             Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
         }
-        BookListApiResult("popular")
-        Row(modifier = Modifier.fillMaxWidth(0.88f).padding(top = 53.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically ) {
-            Text(text = "Top Books", fontSize = 20.sp)
-
-            Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
-        }
-        BookListApiResult("classics")
-        Row(modifier = Modifier.fillMaxWidth(0.88f).padding(top = 53.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically ) {
-            Text(text = "Top Books", fontSize = 20.sp)
-
-            Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
-        }
-        BookListApiResult("children")
-        Row(modifier = Modifier.fillMaxWidth(0.88f).padding(top = 53.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically ) {
-            Text(text = "Top Books", fontSize = 20.sp)
-
-            Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
-        }
-        BookListApiResult("novela")
-        Row(modifier = Modifier.fillMaxWidth(0.88f).padding(top = 53.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically ) {
-            Text(text = "Top Books", fontSize = 20.sp)
-
-            Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
-        }
-        BookListApiResult("fantasy")
+        BookListApiResult()
+//        Row(modifier = Modifier.fillMaxWidth(0.88f).padding(top = 53.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically ) {
+//            Text(text = "Popular", fontSize = 20.sp)
+//
+//            Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
+//        }
+//        BookListApiResult("classics")
+//        Row(modifier = Modifier.fillMaxWidth(0.88f).padding(top = 53.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically ) {
+//            Text(text = "Mainstream", fontSize = 20.sp)
+//
+//            Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
+//        }
+//        BookListApiResult("children")
+//        Row(modifier = Modifier.fillMaxWidth(0.88f).padding(top = 53.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically ) {
+//            Text(text = "Award winners", fontSize = 20.sp)
+//
+//            Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
+//        }
+//        BookListApiResult("novela")
+//        Row(modifier = Modifier.fillMaxWidth(0.88f).padding(top = 53.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically ) {
+//            Text(text = "Top Books", fontSize = 20.sp)
+//
+//            Text(text="see more", fontSize = 14.sp, color = Color(0xff121212))
+//        }
+//        BookListApiResult("fantasy")
 
 
     }
@@ -115,38 +115,37 @@ fun BookList(books: List<Book>) {
 
 
 @Composable
-fun BookListApiResult(category: String) {
-    val viewModel: MainBooksViewModel = hiltViewModel(key = category)
-
-    LaunchedEffect(category) {
-        viewModel.loadBooks(category)
-    }
+fun BookListApiResult() {
+    val viewModel: MainBooksViewModel = hiltViewModel()
 
     val viewState by viewModel.viewState.collectAsState()
 
-    when (viewState) {
-        is MainBooksViewModel.ViewState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(top=30.dp),
-                contentAlignment = Alignment.TopCenter
-            ) {
-                CircularProgressIndicator(
-                    color = Color.Gray
-                )
+    viewState.categories.forEach { (category, result) ->
+        when (result) {
+            is MainBooksViewModel.ApiResult.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(top=30.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.Gray
+                    )
+                }
+            }
+
+            is MainBooksViewModel.ApiResult.Error -> {
+                println("eror")
+            }
+
+            is MainBooksViewModel.ApiResult.Success -> {
+                val books = (result as MainBooksViewModel.ApiResult.Success).data?.works ?: emptyList()
+                println(books)
+                BookList(books)
+
             }
         }
-
-        is MainBooksViewModel.ViewState.Error -> {
-            println("eror")
-        }
-
-        is MainBooksViewModel.ViewState.Success -> {
-            val books = (viewState as MainBooksViewModel.ViewState.Success).data?.works ?: emptyList()
-            println(books)
-            BookList(books)
-
-        }
     }
+
 }
 
 @Composable

@@ -74,4 +74,8 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("io.coil-kt:coil:2.5.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("androidx.room:room-runtime:2.8.3")
+    ksp("androidx.room:room-compiler:2.8.3")
+    implementation("androidx.room:room-ktx:2.8.3")
+    implementation("com.ToxicBakery.library.bcrypt:bcrypt:1.0.9")
 }
